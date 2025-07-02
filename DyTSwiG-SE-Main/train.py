@@ -187,19 +187,8 @@ def train(rank, a, h):
             # Metric Loss
             metric_g = discriminator(clean_mag, mag_g_con)
             loss_metric = F.mse_loss(metric_g.flatten(), one_labels)
-            # L2 LC-SNR Loss
-            # print(clean_com.shape)
-            # s_com = clean_com.reshape(h.batch_size, -1)
-            # hat_com = com_g.reshape(h.batch_size, -1)
-            # s_t = hat_com* s_com* s_com/(torch.norm(s_com, p=2)**2)
-            # loss_lcsnr = torch.mean(-10*torch.log10(torch.norm(s_t, p=2)/torch.norm(hat_com-s_t, p=2)))
-            # ssnr_threshold = 11
             loss_gen_all = loss_metric * 0.05 + loss_mag * 0.9 + loss_pha * 0.3 + loss_com * 0.1 + loss_consis_con * 0.1 # + loss_lcsnr * 0.05
 
-            # if ssnr < ssnr_threshold:
-            #     # time_weight = (ssnr_threshold - ssnr) / ssnr_threshold
-            #     time_weight = min(0.2, (ssnr_threshold - ssnr) / ssnr_threshold)
-            #     loss_gen_all += time_weight * loss_time
             loss_gen_all.backward()
             optim_g.step()
 
