@@ -138,12 +138,12 @@ def main():
     parser.add_argument('--input_clean_wavs_dir', default='/home/dataset/THCHS-30/data_thchs30/test')
     parser.add_argument('--input_noisy_wavs_dir', default='/home/xyj/datasets/chinese/test_noisy')
     parser.add_argument('--input_test_file', default='/home/xyj/datasets/chinese/chinese_test.txt')
-    parser.add_argument('--output_dir', default='/home/xyj/Experience/g_best_zh_DyTSwiG-Net')
-    parser.add_argument('--checkpoint_file', default='/home/xyj/Experience/PrimeK-Net-main/Zh_CKPT_DyTSwiG-Net/g_best_valPESQ3.019721840023327_epoch53')
+    parser.add_argument('--output_dir', default='/home/xyj/Experiments/g_best_zh_DyTSwiG-Net')
+    parser.add_argument('--checkpoint_file', default='/home/xyj/Experiments/PrimeK-Net-main/Zh_CKPT_DyTSwiG-Net/g_best_valPESQ3.019721840023327_epoch53')
     parser.add_argument('--post_processing_PCS', default=False)
     a = parser.parse_args()
 
-    config_file = '/home/xyj/Experience/PrimeK-Net-main/SEMambaconfig.json'
+    config_file = '/home/xyj/Experiments/PrimeK-Net-main/SEMambaconfig.json'
     with open(config_file) as f:
         data = f.read()
 
