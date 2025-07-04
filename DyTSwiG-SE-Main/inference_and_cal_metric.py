@@ -143,7 +143,7 @@ def main():
     parser.add_argument('--post_processing_PCS', default=False)
     a = parser.parse_args()
 
-    config_file = '/home/xyj/Experiments/PrimeK-Net-main/SEMambaconfig.json'
+    config_file = '/home/xyj/Experiments/PrimeK-Net-main/config.json'
     with open(config_file) as f:
         data = f.read()
 
