@@ -379,7 +379,7 @@ def main():
     parser.add_argument('--input_training_file', default='/home/xyj/datasets/chinese/chinese_train.txt')
     parser.add_argument('--input_validation_file', default='/home/xyj/datasets/chinese/chinese_val.txt')
     parser.add_argument('--checkpoint_path', default='Zh_CKPT_DyTSwiG-Net')
-    parser.add_argument('--config', default='SEMambaconfig.json')
+    parser.add_argument('--config', default='config.json')
     parser.add_argument('--training_epochs', default=150, type=int)
     parser.add_argument('--stdout_interval', default=5, type=int)
     parser.add_argument('--checkpoint_interval', default=1000, type=int)
