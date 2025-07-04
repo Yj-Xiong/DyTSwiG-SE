@@ -136,13 +136,13 @@ def main():
     parser.add_argument('--input_clean_wavs_dir', default='/home/dataset/Voicebank/noisy-vctk-16k/clean_testset_wav_16k')
     parser.add_argument('--input_noisy_wavs_dir', default='/home/dataset/Voicebank/noisy-vctk-16k/noisy_testset_wav_16k')
     parser.add_argument('--output_folder', default='results/g_best')
-    parser.add_argument('--config', default='/home/xyj/Experiments/PrimeK-Net-main/config_SEUNet.json')
-    parser.add_argument('--checkpoint_file', default='/home/xyj/Experiments/PrimeK-Net-main/VB_CKPT_DsMSEUet422-XS/g_best_PESQ3.509586296035248_epoch88')
+    parser.add_argument('--config', default='/home/xyj/Experiments/DyTSwiG-SE-main/config_SEUNet.json')
+    parser.add_argument('--checkpoint_file', default='/home/xyj/Experiments/DyTSwiG-SE-main/VB_CKPT_DsMSEUet422-XS/g_best_PESQ3.509586296035248_epoch88')
     parser.add_argument('--post_processing_PCS', default=False)
     args = parser.parse_args()
     a = parser.parse_args()
 
-    config_file = '/home/xyj/Experiments/PrimeK-Net-main/config_SEUNet.json'
+    config_file = '/home/xyj/Experiments/DyTSwiG-SE-main/config_SEUNet.json'
     with open(config_file) as f:
         data = f.read()
 
