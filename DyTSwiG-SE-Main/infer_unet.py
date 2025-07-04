@@ -138,7 +138,7 @@ def main():
     parser.add_argument('--output_folder', default='results/g_best')
     parser.add_argument('--config', default='/home/xyj/Experience/PrimeK-Net-main/config_SEUNet.json')
     parser.add_argument('--checkpoint_file', default='/home/xyj/Experience/PrimeK-Net-main/VB_CKPT_DsMSEUet422-XS/g_best_PESQ3.509586296035248_epoch88')
-    parser.add_argument('--post_processing_PCS', default=True)
+    parser.add_argument('--post_processing_PCS', default=False)
     args = parser.parse_args()
     a = parser.parse_args()
 
