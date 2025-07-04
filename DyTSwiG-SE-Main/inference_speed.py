@@ -74,14 +74,14 @@ def main():
     print('Initializing Inference Process..')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_clean_wavs_dir', default='/home/xyj/Experience/MP-SENet/VoiceBank+DEMAND/wav_clean')
-    parser.add_argument('--input_noisy_wavs_dir', default='/home/xyj/Experience/MP-SENet/VoiceBank+DEMAND/wav_noisy')
-    parser.add_argument('--input_test_file', default='/home/xyj/Experience/MP-SENet/VoiceBank+DEMAND/test.txt')
+    parser.add_argument('--input_clean_wavs_dir', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/wav_clean')
+    parser.add_argument('--input_noisy_wavs_dir', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/wav_noisy')
+    parser.add_argument('--input_test_file', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/test.txt')
     parser.add_argument('--output_dir', default='generated_files/g_best')
-    parser.add_argument('--checkpoint_file', default='/home/xyj/Experience/PrimeK-Net-main/VB_CKPT_test/g_best_PESQ3.5612588650682597_epoch35')
+    parser.add_argument('--checkpoint_file', default='/home/xyj/Experiments/PrimeK-Net-main/VB_CKPT_test/g_best_PESQ3.5612588650682597_epoch35')
     a = parser.parse_args()
 
-    config_file = '/home/xyj/Experience/PrimeK-Net-main/SEMambaconfig.json'
+    config_file = '/home/xyj/Experiments/PrimeK-Net-main/SEMambaconfig.json'
     with open(config_file) as f:
         data = f.read()
 
