@@ -150,8 +150,6 @@ def train(rank, a, h):
             mag_g_con, pha_g_con, com_g_con = mag_pha_stft(audio_g, h.n_fft, h.hop_size, h.win_size, h.compress_factor)
             audio_list_r, audio_list_g = list(clean_audio.cpu().numpy()), list(audio_g.detach().cpu().numpy())
             batch_pesq_score = batch_pesq(audio_list_r, audio_list_g)
-            # batch_ssnr_score = batch_ssnr(audio_list_r, audio_list_g)
-            # ssnr = torch.mean(batch_ssnr_score)
             # Discriminator
             optim_d.zero_grad()
             # metric_r = discriminator(clean_mag, clean_mag)
