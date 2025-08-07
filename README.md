@@ -40,11 +40,17 @@ You can also use the pretrained best checkpoint file we provide in `ckpt/g_best`
 Generated wav files are saved in `generated_files` by default.<br>
 You can change the path by adding `--output_dir` option.
 
-## Architecture
-![model](Figures/model.png)
+## Model Architecture
+![model_DyTSwiG-Net](Figures/Models/DyTSwiG-Net.pdf)
+![model_DyTSwiG-Mamba](Figures/Models/DyTSwiG-Mamba.pdf)
 
 ## Efficiency Comparison
-![comparison](Figures/table.png)
+![comparison](Figures/Comparison/Efficiency.pdf)
+
+## Visualization
+![visualization_DBPD_1](Figures//Visualization/DBPD/p232_020.pdf)
+![visualization_DBPD_2](Figures//Visualization/DBPD/p257_020.pdf)
+![visualization_zh-models](Figures/Visualization/Enhanced-zh/D21_866.pdf)
 
 ## Acknowledgements
-We referred to [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/)
+We referred to [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/).
