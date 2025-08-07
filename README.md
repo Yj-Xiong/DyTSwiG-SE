@@ -15,7 +15,7 @@ Both models are thoroughly evaluated on three datasets from two languages, Engli
 5. Move the clean and noisy wavs to `VoiceBank+DEMAND/wavs_clean` and `VoiceBank+DEMAND/wavs_noisy` or any path you want, and change the path in train.py [parser.add_argument('--input_clean_wavs_dir', default=], respectively. Notably, different downsampling ways could lead to different result. 
 
 ## Training
-For a single GPU in recommended environment settings, DyTSwiG-Net needs at least 14GB GPU memery, whereas DyTSwiG-Mamba needs at least 16GB GPU memery. Edit imports of models (generators) in train.py and run
+For a single GPU in recommended environment settings, DyTSwiG-Net needs at least 14GB GPU memery, whereas DyTSwiG-Mamba needs at least 16GB GPU memery. Edit imports of models (generators) in 'train.py' script and run
 ```bash
 cd DyTSwiG-SE-Main
 CUDA_VISIBLE_DEVICES={GPU_ids} python train.py \
@@ -31,7 +31,8 @@ python make_file_list.py
 ```
 Then replace the test.txt and training.txt with generated files in folder "./OtherDataset" and put your train and test set in the same folder(clean or noisy).
 
-## Inference
+## Inference and Evaluation
+### Inference and Compute All Metrics
 Change the path in '--checkpoint_file' option with the ckpt file. You can use the pretrained best checkpoint file we provide in `ckpt/g_best`.
 ```bash
 cd DyTSwiG-SE-Main
@@ -39,7 +40,12 @@ python inference_and_cal_metric.py
 ```
 Generated wav files are saved in `/home/xyj/Experiments/g_best` by default.<br>
 You can change the path by editing `--output_dir` option.
-
+### Compute Character Error Rate (CER) Only
+Modify the folder paths in 'cal_cer.py' script and follow the commands:
+```bash
+cd DyTSwiG-SE-Main
+python cal_cer.py
+```
 ## Model Architecture
 The architecture of proposed DyTSwiG-Net
 ![model_DyTSwiG-Net](Figures/Models/DyTSwiG-Net.png)
