@@ -32,14 +32,13 @@ python make_file_list.py
 Then replace the test.txt and training.txt with generated files in folder "./OtherDataset" and put your train and test set in the same folder(clean or noisy).
 
 ## Inference
+You can use the pretrained best checkpoint file we provide in `ckpt/g_best`.<br>, or change the path in '--checkpoint_file' option with your own ckpt file.
 ```bash
 cd DyTSwiG-SE-Main
-python inference_and_cal_metric.py --checkpoint_file=/home/xyj/DyTSwiG-SE-Main/ckpt/g_best
+python inference_and_cal_metric.py
 ```
-
-You can also use the pretrained best checkpoint file we provide in `ckpt/g_best`.<br>
-Generated wav files are saved in `generated_files` by default.<br>
-You can change the path by adding `--output_dir` option.
+Generated wav files are saved in `/home/xyj/Experiments/g_best` by default.<br>
+You can change the path by editing `--output_dir` option.
 
 ## Model Architecture
 The architecture of proposed DyTSwiG-Net
