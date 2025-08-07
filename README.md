@@ -48,7 +48,7 @@ The architecture of proposed DyTSwiG-Mamba
 ![model_DyTSwiG-Mamba](Figures/Models/DyTSwiG-Mamba.png)
 
 ## Efficiency Comparison
-The efficiency comparison with other state-of-the-art metheds (our proposed models are with a pentagram mark)
+The efficiency comparison with other state-of-the-art metheds. Our proposed models are with a pentagram mark.
 ![comparison](Figures/Comparison/Efficiency.png)
 
 ## Visualization
