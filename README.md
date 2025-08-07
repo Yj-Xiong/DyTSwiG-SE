@@ -42,7 +42,7 @@ Generated wav files are saved in `generated_files` by default.<br>
 You can change the path by adding `--output_dir` option.
 
 ## Model Architecture
-![model_DyTSwiG-Net](Figures/Models/DyTSwiG-Net.pdf)
+![model_DyTSwiG-Net](Figures/Models/DyTSwiG-Net.png)
 ![model_DyTSwiG-Mamba](Figures/Models/DyTSwiG-Mamba.pdf)
 
 ## Efficiency Comparison
