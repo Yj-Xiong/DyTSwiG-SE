@@ -40,10 +40,10 @@ You can also use the pretrained best checkpoint file we provide in `ckpt/g_best`
 Generated wav files are saved in `generated_files` by default.<br>
 You can change the path by adding `--output_dir` option.
 
-## Model Structure
+## Architecture
 ![model](Figures/model.png)
 
-## Comparison with other SE models
+## Efficiency Comparison
 ![comparison](Figures/table.png)
 
 ## Acknowledgements
