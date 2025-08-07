@@ -17,22 +17,23 @@ Both models are thoroughly evaluated on three datasets from two languages, Engli
 ## Training
 For a single GPU in recommended environment settings, DyTSwiG-Net needs at least 14GB GPU memery, whereas DyTSwiG-Mamba needs at least 16GB GPU memery. Edit imports of models (generators) in train.py and run
 ```bash
+cd DyTSwiG-SE-Main
 CUDA_VISIBLE_DEVICES={GPU_ids} python train.py \
     --config "config.json" 
 ```
 
-## Training with your own data
-
+## Training with Other Dataset
+Ensure the new clean and noisy files are moved to `OtherDataset/wavs_clean` and `OtherDataset/wavs_noisy`.
 Edit path in make_file_list.py and run
-
 ``` bash
 cd DyTSwiG-SE-Main/tools
 python make_file_list.py
 ```
-Then replace the test.txt and training.txt with generated files in folder ./VoiceBank+DEMAND and put your train and test set in the same folder(clean, noisy).
+Then replace the test.txt and training.txt with generated files in folder "./OtherDataset" and put your train and test set in the same folder(clean or noisy).
 
 ## Inference
-```
+```bash
+cd DyTSwiG-SE-Main
 python inference_and_cal_metric.py --checkpoint_file=/home/xyj/DyTSwiG-SE-Main/ckpt/g_best
 ```
 
@@ -48,9 +49,9 @@ You can change the path by adding `--output_dir` option.
 ![comparison](Figures/Comparison/Efficiency.pdf)
 
 ## Visualization
-![visualization_DBPD_1](Figures/Visualization/DBPD/p232_020.pdf)
-![visualization_DBPD_2](Figures/Visualization/DBPD/p257_020.pdf)
-![visualization_zh-models](Figures/Visualization/Enhanced-zh/D21_866.pdf)
+![visualization_DBPD_1](/Figures/Visualization/DBPD/p232_020.pdf)
+![visualization_DBPD_2](/Figures/Visualization/DBPD/p257_020.pdf)
+![visualization_zh-models](/Figures/Visualization/Enhanced-zh/D21_866.pdf)
 
 ## Acknowledgements
 We referred to [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/).
