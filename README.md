@@ -48,8 +48,8 @@ You can change the path by adding `--output_dir` option.
 ![comparison](Figures/Comparison/Efficiency.pdf)
 
 ## Visualization
-![visualization_DBPD_1](Figures//Visualization/DBPD/p232_020.pdf)
-![visualization_DBPD_2](Figures//Visualization/DBPD/p257_020.pdf)
+![visualization_DBPD_1](Figures/Visualization/DBPD/p232_020.pdf)
+![visualization_DBPD_2](Figures/Visualization/DBPD/p257_020.pdf)
 ![visualization_zh-models](Figures/Visualization/Enhanced-zh/D21_866.pdf)
 
 ## Acknowledgements
