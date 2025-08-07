@@ -32,7 +32,7 @@ python make_file_list.py
 Then replace the test.txt and training.txt with generated files in folder "./OtherDataset" and put your train and test set in the same folder(clean or noisy).
 
 ## Inference
-You can use the pretrained best checkpoint file we provide in `ckpt/g_best`.<br>, or change the path in '--checkpoint_file' option with your own ckpt file.
+Change the path in '--checkpoint_file' option with the ckpt file. You can use the pretrained best checkpoint file we provide in `ckpt/g_best`.
 ```bash
 cd DyTSwiG-SE-Main
 python inference_and_cal_metric.py
