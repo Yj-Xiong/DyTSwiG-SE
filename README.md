@@ -1,12 +1,12 @@
 # DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction (Under TASLP Review)
 ### Yujie Xiong and Zhihua Huang
-Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
 
 **Abstract:** 
 Speech enhancement (SE) models with deep denoising networks (DDNs) often consist of many stacked Two-Stage (TS) blocks to gradually improve the input signal, structuring the denoising task as progressive learning. These methods demonstrate impressive performance, while also facing efficiency challenges from the TS block.  Meanwhile, they also leave two potential problems: 1) Hierarchical representation of identical features across different depths in unidirectional TS blocks can lead to information loss through successive propagation; 2) Typical phase prediction strategy ignores the conditional information of noisy phase. This paper presents an efficient monaural SE network and a CNN-Mamba hybrid network, namely DyTSwiG-Net and DyTSwiG-Mamba. Specially, we propose an Input-Biased Dynamic Tanh (IB-DyT) for layer normalization-free models. Furthermore, we propose a SwiGLUformer to more efficiently play the role of TS block.
 In response to the two problems, we propose a Global Bidirectional Mamba (G-BiMamba) for enhanced information aggregation around TS blocks, and a Dual-Branch Phase Decoder (DBPD) to jointly predict phase mapping and phase mask in parallel. 
 Both models are thoroughly evaluated on three datasets from two languages, English and Mandarin. Experimental results show that DyTSwiG-Net outperforms current competitive models in inference speed while maintaining outstanding performance, and DyTSwiG-Mamba outperforms the latest state-of-the-art method while cutting efficiency costs by one-quarter. Through spectrogram visualization, the effectiveness of DBPD and the denoising performance of DyTSwiG-Mamba are visually verified. When used as a front-end system for two downstream ASR models, our methods achieve a lower character error rate (CER) on Mandarin speech.
 
+# Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
 ## Pre-requisites
 1. Python >= 3.9.
 2. Clone this repository.
