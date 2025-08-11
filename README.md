@@ -1,4 +1,5 @@
 # DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction (Under TASLP Review)
+Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
 ### Yujie Xiong and Zhihua Huang
 
 **Abstract:** 
@@ -6,7 +7,7 @@ Speech enhancement (SE) models with deep denoising networks (DDNs) often consist
 In response to the two problems, we propose a Global Bidirectional Mamba (G-BiMamba) for enhanced information aggregation around TS blocks, and a Dual-Branch Phase Decoder (DBPD) to jointly predict phase mapping and phase mask in parallel. 
 Both models are thoroughly evaluated on three datasets from two languages, English and Mandarin. Experimental results show that DyTSwiG-Net outperforms current competitive models in inference speed while maintaining outstanding performance, and DyTSwiG-Mamba outperforms the latest state-of-the-art method while cutting efficiency costs by one-quarter. Through spectrogram visualization, the effectiveness of DBPD and the denoising performance of DyTSwiG-Mamba are visually verified. When used as a front-end system for two downstream ASR models, our methods achieve a lower character error rate (CER) on Mandarin speech.
 
-Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
+
 ## Pre-requisites
 1. Python >= 3.9.
 2. Clone this repository.
