@@ -8,12 +8,80 @@ from utils import get_padding_2d, LearnableSigmoid_2d
 from pesq import pesq
 from joblib import Parallel, delayed
 from torchvision.ops.deform_conv import DeformConv2d
-from SEMamba.models.mamba_block import TFFMambaBlock#1 as TFFMambaBlock
-from SEMamba.models.mamba_block import TFBMambaBlock#1 as TFBMambaBlock
-from models.MN_Net import DenseEncoder as MN_Net_DenseEncoder
-from models.MN_Net import MaskDecoder as MN_Net_MaskDecoder
-from models.MN_Net import PhaseDecoder as MN_Net_PhaseDecoder
-from models.MN_Net import SRU
+from SEMamba.models.mamba_block import TFFMambaBlock as TFFMambaBlock
+from SEMamba.models.mamba_block import TFBMambaBlock as TFBMambaBlock
+
+def shuffle_channels(x, groups):
+    """shuffle channels of a 4-D Tensor"""
+    batch_size, channels, height, width = x.size() #[B,C,H,W]
+    assert channels % groups == 0
+    channels_per_group = channels // groups
+    # split into groups
+    x = x.view(batch_size, groups, channels_per_group, #[B,4,C/4,H,W]
+               height, width)
+    # transpose 1, 2 axis
+    x = x.transpose(1, 2).contiguous()  #[B,C/4,4,H,W]
+    # reshape into orignal
+    x = x.view(batch_size, channels, height, width) #[B,C,H,W]
+    return x
+class LearnableSigmoid_2d(nn.Module):
+    def __init__(self, in_features, beta=1):
+        super().__init__()
+        self.beta = beta
+        self.slope = nn.Parameter(torch.ones(in_features, 1))  #α. (in_features, 1) For each feature of the data, having a separate slope parameter
+        self.slope.requiresGrad = True
+
+    def forward(self, x):
+        return self.beta * torch.sigmoid(self.slope * x) #First scale the input using a learnable slope paramet
+class GroupBatchnorm2d(nn.Module):
+    def __init__(self, c_num: int,
+                 group_num: int = 16,
+                 eps: float = 1e-10
+                 ):
+        super(GroupBatchnorm2d, self).__init__()
+        assert c_num >= group_num
+        self.group_num = group_num
+        self.weight = nn.Parameter(torch.randn(c_num, 1, 1))
+        self.bias = nn.Parameter(torch.zeros(c_num, 1, 1))
+        self.eps = eps
+
+    def forward(self, x):
+        N, C, H, W = x.size()
+        x = x.view(N, self.group_num, -1)
+        mean = x.mean(dim=2, keepdim=True)
+        std = x.std(dim=2, keepdim=True)
+        x = (x - mean) / (std + self.eps)
+        x = x.view(N, C, H, W)
+        return x * self.weight + self.bias
+class SRU(nn.Module):
+    def __init__(self,
+                 oup_channels: int,
+                 group_num: int = 16,
+                 gate_treshold: float = 0.5,
+                 torch_gn: bool = True,
+                 fre: int = 201,
+                 ):
+        super().__init__()
+
+        self.gn = nn.GroupNorm(num_channels=oup_channels, num_groups=group_num) if torch_gn else GroupBatchnorm2d(
+            c_num=oup_channels, group_num=group_num)   #torch_gn=Ture：nn.GroupNorm    torch_gn=Flase:GroupBatchnorm2d
+        self.gate_treshold = gate_treshold
+        self.lsigmoid = LearnableSigmoid_2d(fre, beta=2.0) # v1+fe 1.23
+
+
+    def forward(self, x):
+        gn_x = self.gn(x)   # x * self.weight + self.bias
+        w_gamma = self.gn.weight / sum(self.gn.weight)
+        w_gamma = w_gamma.view(1, -1, 1, 1)
+        x1 = gn_x * w_gamma
+        reweigts = self.lsigmoid(x1.permute(0,1,3,2)).permute(0,1,3,2)  #W weight
+        f_reweigts = torch.flip(reweigts, [1])  # F operation
+        x_1 = reweigts * x  #X1
+        x_2 = f_reweigts * x  #X2
+        y2 = shuffle_channels(x_2, 4) #S operation
+        y = x_1 + y2
+
+        return y
 
 
 class ATTConvActNorm(nn.Module):
