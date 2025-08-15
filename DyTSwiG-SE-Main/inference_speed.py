@@ -74,15 +74,9 @@ def main():
     print('Initializing Inference Process..')
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input_clean_wavs_dir', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/wav_clean')
-    parser.add_argument('--input_noisy_wavs_dir', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/wav_noisy')
-    parser.add_argument('--input_test_file', default='/home/xyj/Experiments/MP-SENet/VoiceBank+DEMAND/test.txt')
-    parser.add_argument('--output_dir', default='generated_files/g_best')
-    parser.add_argument('--checkpoint_file', default='/home/xyj/Experiments/DyTSwiG-SE-main/VB_CKPT_test/g_best_PESQ3.5612588650682597_epoch35')
+    parser.add_argument('--config', default='config.json')
     a = parser.parse_args()
-
-    config_file = '/home/xyj/Experiments/DyTSwiG-SE-main/SEMambaconfig.json'
-    with open(config_file) as f:
+    with open(a.config) as f:
         data = f.read()
 
     global h
