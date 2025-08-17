@@ -13,7 +13,7 @@ from datasets.dataset import mag_pha_stft, mag_pha_istft
 from SEMamba.models.generator import SEMamba as Model
 # from MambaSEUNet.models.generatorU import SEUNet as Model
 # from MPmodels.model import MPNet as Model
-# from MambaSEUNet.models.pcs400 import cal_pcs
+from MambaSEUNet.models.pcs400 import cal_pcs
 # from models.g_3090 import DBD_LKFCA_Net as Model
 import soundfile as sf
 import os
