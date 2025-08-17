@@ -13,7 +13,7 @@ from datasets.dataset import mag_pha_stft, mag_pha_istft
 # from SEMamba.models.generator import SEMamba as Model
 # from MambaSEUNet.models.generatorU import SEUNet as Model
 # from MPmodels.model import MPNet as Model
-# from MambaSEUNet.models.pcs400 import cal_pcs
+from MambaSEUNet.models.pcs400 import cal_pcs
 # from models.g_3090 import DBD_LKFCA_Net as Model
 from models.generator_DyTSwiGNet import LKFCA_Net as Model
 import soundfile as sf
@@ -116,6 +116,21 @@ def cal_wer_whisper(whisper,clean_file, enhanced_file):
     # 计算次错率
     wer = jiwer.wer(reference, hypothesis)
     return wer
+def cal_cer_whisper(whisper,clean_file, enhanced_file):
+    # 加载Whisper模型
+    wer_model = whisper
+
+    # 对原始音频文件进行转录
+    result_clean = wer_model.transcribe(clean_file)
+    reference = result_clean["text"]
+
+    # 对增强后的音频文件进行转录
+    result_enhanced = wer_model.transcribe(enhanced_file)
+    hypothesis = result_enhanced["text"]
+
+    # 计算次错率
+    cer = jiwer.cer(reference, hypothesis)
+    return cer
 def cal_cer(model,clean_file, enhanced_file):
     # (1) 加载模型
 
