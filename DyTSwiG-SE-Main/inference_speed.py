@@ -75,6 +75,7 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', default='config.json')
+    parser.add_argument('--data_len', default=2)
     a = parser.parse_args()
     with open(a.config) as f:
         data = f.read()
@@ -91,12 +92,11 @@ def main():
     else:
         device = torch.device('cpu')
 
-    # inference(a)
-    chunk_time = 2
+    length = a.data_len
     sr = 16000
     # Measure inference speed and FLOPS
     model = Model(h).to(device)
-    input_size = 32000
+    input_size = sr * length
     input_data = torch.randn(input_size)
     input_data = torch.FloatTensor(input_data).to(device)
     norm_factor = torch.sqrt(len(input_data) / torch.sum(input_data ** 2.0)).to(device)
@@ -106,10 +106,7 @@ def main():
     print('Warming up the model...')
     for i in range(10):
         with torch.no_grad():
-            # model(input_data)
             model(noisy_amp, noisy_pha)
-            # audio_g = mag_pha_istft(amp_g, pha_g, h.n_fft, h.hop_size, h.win_size, h.compress_factor)
-            # audio_g = audio_g / norm_factor
 
     print('Measuring inference speed...')
     total_time = 0
@@ -146,4 +143,6 @@ def main():
     print(f"Manual calculation of parameters: {num_params}")
 if __name__ == '__main__':
     main()
+
+
 
