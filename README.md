@@ -52,7 +52,8 @@ The architecture of proposed DyTSwiG-Net
 ![model_DyTSwiG-Net](Figures/Models/DyTSwiG-Net.png)
 The architecture of proposed DyTSwiG-Mamba
 ![model_DyTSwiG-Mamba](Figures/Models/DyTSwiG-Mamba.png)
-
+Module illustration of proposed SwiGLUformer.
+![module_SwiGLUformer](Figures/Models/SwiGLUformer.png)
 ## Efficiency Comparison
 The efficiency comparison with other state-of-the-art metheds. Our proposed models are with a pentagram mark.
 ![comparison](Figures/Comparison/Efficiency.png)
