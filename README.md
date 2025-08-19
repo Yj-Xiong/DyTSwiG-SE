@@ -16,7 +16,7 @@ Both models are thoroughly evaluated on three datasets from two languages, Engli
 5. Move the clean and noisy wavs to `VoiceBank+DEMAND/wavs_clean` and `VoiceBank+DEMAND/wavs_noisy` or any path you want, and change the path in train.py [parser.add_argument('--input_clean_wavs_dir', default=], respectively. Notably, different downsampling ways could lead to different result. 
 
 ## Training
-For a single GPU in recommended environment settings, DyTSwiG-Net needs at least 14GB GPU memery, whereas DyTSwiG-Mamba needs at least 16GB GPU memery. Edit imports of models (generators) in 'train.py' script and run
+For a single GPU in recommended environment settings, DyTSwiG-Net needs at least 14GB GPU memery, whereas DyTSwiG-Mamba needs at least 16GB GPU memery. Edit imports of models (generators) in 'train.py' script and run:
 ```bash
 cd DyTSwiG-SE-Main
 CUDA_VISIBLE_DEVICES={GPU_ids} python train.py \
@@ -25,7 +25,7 @@ CUDA_VISIBLE_DEVICES={GPU_ids} python train.py \
 
 ## Training with Other Dataset
 Ensure the new clean and noisy files are moved to `OtherDataset/wavs_clean` and `OtherDataset/wavs_noisy`.
-Edit path in make_file_list.py and run
+Edit path in make_file_list.py and run:
 ``` bash
 cd DyTSwiG-SE-Main/tools
 python make_file_list.py
