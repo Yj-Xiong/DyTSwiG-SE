@@ -30,7 +30,7 @@ Edit path in [make_file_list.py](https://github.com/Yj-Xiong/DyTSwiG-SE/blob/mai
 cd DyTSwiG-SE-Main/tools
 python make_file_list.py
 ```
-Then replace the [test.txt](https://github.com/Yj-Xiong/DyTSwiG-SE/blob/main/DyTSwiG-SE-Main/AudioFiles/test.txt) and [training.txt](https://github.com/Yj-Xiong/DyTSwiG-SE/blob/main/DyTSwiG-SE-Main/AudioFiles/training.txt) with generated files in folder "./OtherDataset" and put your train and test set in the same folder(clean or noisy).
+Then replace the [test.txt](https://github.com/Yj-Xiong/DyTSwiG-SE/blob/main/DyTSwiG-SE-Main/AudioFiles/test.txt) and [training.txt](https://github.com/Yj-Xiong/DyTSwiG-SE/blob/main/DyTSwiG-SE-Main/AudioFiles/training.txt) with generated files in folder "./OtherDataset" and put your train and test sets in the same folder(clean or noisy).
 
 ## Inference and Evaluation
 ### Inference and Compute All Metrics
