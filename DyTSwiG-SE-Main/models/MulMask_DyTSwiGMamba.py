@@ -714,6 +714,38 @@ class PhaseDecoder(nn.Module):
         x = torch.atan2(x_i, x_r)
         return x
 
+class PMaskDecoder(nn.Module):
+    def __init__(self, h, out_channel=1):
+        super(PMaskDecoder, self).__init__()
+        self.dense_block = DS_DDB(h, depth=4)
+        self.SP_conv = nn.Sequential(
+            nn.ConvTranspose2d(h.dense_channel, h.dense_channel, (1, 3), (1, 2)),
+            nn.InstanceNorm2d(h.dense_channel, affine=True),
+            nn.PReLU(h.dense_channel),
+        )
+        # self.phase_conv_r = nn.Conv2d(h.dense_channel, out_channel, (1, 1))
+        # self.phase_conv_i = nn.Conv2d(h.dense_channel, out_channel, (1, 1))
+        # self.fp_layer = nn.Sequential(FreMLP(h.dense_channel),
+        #                                nn.InstanceNorm2d(h.dense_channel, affine=True),
+        #                                nn.PReLU(h.dense_channel))
+        self.mask_pha = nn.Sequential(
+            nn.Conv2d(h.dense_channel, 1, (1, 1)),
+            nn.Tanh())
+        self.SRU = SRU(h.dense_channel, group_num=4, gate_treshold=0.5, fre=h.n_fft//4)
+
+    def forward(self, x):
+        x = self.dense_block(x)
+
+        # x = self.dysample(x)
+        x = self.SRU(x)
+        x = self.SP_conv(x)
+        # x_r = self.phase_conv_r(x)
+        # x_i = self.phase_conv_i(x)
+        # pha = torch.atan2(x_i, x_r)
+        # x = x * self.fp_layer(x)
+        mask_pha = self.mask_pha(x)
+
+        return mask_pha
 
 class CausalConv(nn.Module):
     def __init__(self, in_ch, out_ch, kernel_size, stride):
