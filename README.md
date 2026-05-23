@@ -1,6 +1,9 @@
 # DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction (Under TASLP Review)
+
+**English** | [中文](README_CN.md)
+
 Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
-### Yujie Xiong and Zhihua Huang
+### Yujie Xiong, Zhihua Huang and Bixin Wu
 
 **Abstract:** 
 Speech enhancement (SE) models based on multiple stacked Two-Stage (TS) blocks achieve impressive performance. However, they face a fundamental compromise between performance and efficiency within each TS block, while suffering from a limited data adaptability due to the pervasive use of layer normalization. Besides, widely adopted phase decoders tend to ignore the noisy phase condition, leading to a suboptimal noise robustness. In response, we propose two layer-normalization-free monaural SE networks: DyTSwiG-Net and DyTSwiG-Mamba. First, we introduce the SwiGLUformer as a more efficient replacement for the TS block, along with an Input-Biased Dynamic Tanh (IB-DyT) activation for layer normalization-free architectures. For DyTSwiG-Mamba, we further design a Dual-Branch Phase Decoder (DBPD) to jointly estimate the phase mapping and masking via adding the noisy phase spectrogram, and integrate a Global Bidirectional Mamba (G-BiMamba) module to enhance feature aggregation across the network.
