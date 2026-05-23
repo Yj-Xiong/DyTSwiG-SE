@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 from einops import rearrange
-from .mamba_block import TFMambaBlock
+from .rms_mamba_block import TFMambaBlock
 from .codec_module import DenseEncoder, MagDecoder, PhaseDecoder
 
 class SEMamba(nn.Module):
