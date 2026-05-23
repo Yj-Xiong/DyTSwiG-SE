@@ -68,7 +68,7 @@ DBPD 模块的频谱可视化（使用 VB+DEMAND 数据集中的 p232_020 和 p2
 ![visualization_zh-models](/Figures/Visualization/Enhanced-zh/D21_866.png)
 
 ## 音频演示
-访问我们的 [Demo 页面](https://Yj-Xiong.github.io/DyTSwiG-SE) 收听英文和中文语音增强效果对比。
+访问我们的 [Demo 页面]([https://Yj-Xiong.github.io/DyTSwiG-SE](https://yj-xiong.github.io/DyTSwiG-SE/)) 收听英文和中文语音增强效果对比。
 
 ## 致谢
 我们参考了 [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/) 的工作。
