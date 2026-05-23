@@ -184,14 +184,10 @@ class Mamba_Block(nn.Module):
             d_conv=4,  # Local convolution width
             expand=4,  # Block expansion factor
         )
-        #self.norm = DyTanh(d_model)
-        # self.norm = nn.LayerNorm(d_model, eps=1e-6)
-        # self.norm = RMSNorm(d_model, eps=1e-6)
+
 
     def forward(self, x):
-        # x = self.norm(x)
         x = self.Mamba(x)
-        # x = self.norm(x)
         return x
 
 
@@ -213,14 +209,7 @@ class MambaBlock(nn.Module):
             d_conv=4,  # Local convolution width
             expand=4,  # Block expansion factor
         )
-        # self.norm1 = DyTanh(in_channels)
-        # self.norm = DyTanh(in_channels)
-        # self.apply(
-        #     partial(
-        #         _init_weights,
-        #         n_layer=n_layer,
-        #     )
-        # )
+
 
     def forward(self, x):
         x_forward, x_backward = x.clone(), torch.flip(x, [1])
@@ -231,7 +220,7 @@ class MambaBlock(nn.Module):
         #     x_forward, resi_forward = layer(x_forward, resi_forward)
         x_forward = self.forward_block(x_forward)
         y_forward = (x_forward + resi_forward) if resi_forward is not None else x_forward
-        # y_forward = self.norm1(y_forward)
+
         # Backward
         # for layer in self.backward_blocks:
         #     x_backward, resi_backward = layer(x_backward, resi_backward)
@@ -240,64 +229,6 @@ class MambaBlock(nn.Module):
             x_backward, [1])
 
         return torch.cat([y_forward, y_backward], -1)
-
-
-class AggregationMambaBlock(nn.Module):
-    def __init__(self, in_channels, cfg):
-        super(AggregationMambaBlock, self).__init__()
-        n_layer = 1
-        self.external_block = nn.ModuleList([])
-        for i in range(2):
-            self.external_block.append(Mamba_Block(
-                # uses roughly 3 * expand * d_model^2 parameters    x_in.shape = (batch, length, dim)
-                d_model=64,  # Model dimension d_model
-                d_state=16,  # SSM state expansion factor
-                d_conv=4,  # Local convolution width
-                expand=4,  # Block expansion factor
-            ))
-        self.internal_block = nn.ModuleList([])
-        for i in range(2):
-            self.internal_block.append(Mamba_Block(
-                # uses roughly 3 * expand * d_model^2 parameters    x_in.shape = (batch, length, dim)
-                d_model=64,  # Model dimension d_model
-                d_state=16,  # SSM state expansion factor
-                d_conv=4,  # Local convolution width
-                expand=4,  # Block expansion factor
-            ))
-
-        # self.apply(
-        #     partial(
-        #         _init_weights,
-        #         n_layer=n_layer,
-        #     )
-        # )
-        self.pn = DyTanh(in_channels * 2)
-
-    def forward(self, x):
-        residual = x.clone()
-        n = x.shape[1]
-        if n % 4 != 0:
-            x = F.pad(x, (0, 0, 0, 2 - x.shape[1] % 4))
-
-        assert x.shape[1] % 2 == 0
-
-        x_1, x_2 = torch.chunk(x, 2, dim=1)
-        x_3, x_4 = x_1.flip([1]), x_2.flip([1])
-        # Inward
-
-        x_3 = self.external_block[0](x_3) + x_3
-        x_2 = self.external_block[1](x_2) + x_2
-        x_3 = torch.flip(x_3, [1])
-        x_inward = torch.cat([x_3, x_2], 1)
-
-        # Outward
-        x_1 = self.internal_block[0](x_1) + x_1
-        x_4 = self.internal_block[1](x_4) + x_4
-        x_4 = torch.flip(x_4, [1])
-        x_outward = torch.cat([x_1, x_4], 1)
-        x = torch.cat([x_inward, x_outward], -1)
-        x = x[:, :n, :]
-        return self.pn(x)
 
 
 class FMambaBlock(nn.Module):
@@ -437,60 +368,7 @@ class TFFMambaBlock(nn.Module):
         x = x_f2.view(b, t, f, c).permute(0, 3, 1, 2)
         # x = self.F_SRU(x)
         return x, x_f1, x_f2
-class TFFMambaBlock1(nn.Module):
-    """
-    Temporal-Frequency Mamba block for sequence modeling.
 
-    Attributes:
-    cfg (Config): Configuration for the block.
-    time_mamba (MambaBlock): Mamba block for temporal dimension.
-    freq_mamba (MambaBlock): Mamba block for frequency dimension.
-    tlinear (ConvTranspose1d): ConvTranspose1d layer for temporal dimension.
-    flinear (ConvTranspose1d): ConvTranspose1d layer for frequency dimension.
-    """
-
-    def __init__(self, cfg):
-        super(TFFMambaBlock1, self).__init__()
-        self.cfg = cfg
-        self.hid_feature = cfg['model_cfg']['hid_feature']
-
-        # Initialize Mamba blocks
-        self.time_mamba = FMambaBlock(in_channels=self.hid_feature, cfg=cfg)
-        self.freq_mamba = FMambaBlock(in_channels=self.hid_feature, cfg=cfg)
-        self.max_hid = self.hid_feature * 4
-        # Initialize ConvTranspose1d layers
-        self.tlinear1 = nn.Conv1d(self.hid_feature * 1, self.max_hid, 1, stride=1)
-        self.flinear1 = nn.Conv1d(self.hid_feature * 1, self.max_hid, 1, stride=1)
-        self.Tswiglu = SwishGate()
-        self.Fswiglu = SwishGate()
-        self.tlinear = nn.ConvTranspose1d(self.max_hid // 2, self.hid_feature, 1, stride=1)
-        self.flinear = nn.ConvTranspose1d(self.max_hid // 2, self.hid_feature, 1, stride=1)
-    def forward(self, x):
-        """
-        Forward pass of the TFMamba block.
-
-        Parameters:
-        x (Tensor): Input tensor with shape (batch, channels, time, freq).
-
-        Returns:
-        Tensor: Output tensor after applying temporal and frequency Mamba blocks.
-        """
-        b, c, t, f = x.size()
-        scale= 1
-        x = x.permute(0, 3, 2, 1).contiguous().view(b * f, t, c)
-        # cat_Tfeat = torch.cat([self.time_mamba(x).permute(0, 2, 1), x_f1.permute(0, 2, 1)], 1)
-        x_t = self.time_mamba(x)
-        Tfeat = self.tlinear1(x_t.permute(0, 2, 1))
-        Tfeat = self.Tswiglu(Tfeat)
-        x_f1 = scale*self.tlinear(Tfeat).permute(0, 2,1) + x_t + x
-        x = x_f1.view(b, f, t, c).permute(0, 2, 1, 3).contiguous().view(b * t, f, c)
-        x_f = self.freq_mamba(x)
-        Ffeat = self.flinear1(x_f.permute(0, 2, 1))
-        Ffeat = self.Fswiglu(Ffeat)
-
-        x_f2 = scale*self.flinear(Ffeat).permute(0, 2,1) + x_f + x
-        x = x.view(b, t, f, c).permute(0, 3, 1, 2)
-        return x, x_f1, x_f2
 
 class TFBMambaBlock(nn.Module):
     """
@@ -512,10 +390,6 @@ class TFBMambaBlock(nn.Module):
         # Initialize Mamba blocks
         self.time_mamba = BMambaBlock(in_channels=self.hid_feature, cfg=cfg)
         self.freq_mamba = BMambaBlock(in_channels=self.hid_feature, cfg=cfg)
-        # self.t_weight = nn.Parameter(torch.zeros((1, 1, self.hid_feature)), requires_grad=True)
-        # self.f_weight = nn.Parameter(torch.zeros((1, 1, self.hid_feature)), requires_grad=True)
-        # self.T_SRU = RMS_SRU(self.hid_feature, group_num=4, gate_treshold=0.5, fre=100)
-        # self.F_SRU = RMS_SRU(self.hid_feature, group_num=4, gate_treshold=0.5, fre=100)
         # Initialize ConvTranspose1d layers
         self.tlinear = nn.ConvTranspose1d(self.hid_feature * 2, self.hid_feature, 1, stride=1)
         self.flinear = nn.ConvTranspose1d(self.hid_feature * 2, self.hid_feature, 1, stride=1)
@@ -536,76 +410,10 @@ class TFBMambaBlock(nn.Module):
         x = self.tlinear(torch.cat([self.time_mamba(x).permute(0, 2, 1), x_f1.permute(0, 2, 1)], 1)).permute(0, 2,
                                                                                                              1) + x# * self.t_weight
         #  x = x.view(b,c,t,f)
-        # x = self.T_SRU(x)
         x = x.view(b, f, t, c).permute(0, 2, 1, 3).contiguous().view(b * t, f, c)
         x = self.flinear(torch.cat([self.freq_mamba(x).permute(0, 2, 1), x_f2.permute(0, 2, 1)], 1)).permute(0, 2,
                                                                                                              1) + x# * self.f_weight
         x = x.view(b, t, f, c).permute(0, 3, 1, 2)
-        # x = self.F_SRU(x)
+
         return x
 
-class SwishGate(nn.Module):
-    def __init__(self, beta=1.0):
-        super().__init__()
-        self.beta = beta  # 初始化为1.0，标准Swish
-
-    def forward(self, x):
-        x1, x2 = x.chunk(2, dim=1)
-        # return (x2 * torch.sigmoid(self.beta * x2)) * x1
-        return (x1 * torch.sigmoid(self.beta * x1)) * x2
-class TFBMambaBlock1(nn.Module):
-    """
-    Temporal-Frequency Mamba block for sequence modeling.
-
-    Attributes:
-    cfg (Config): Configuration for the block.
-    time_mamba (MambaBlock): Mamba block for temporal dimension.
-    freq_mamba (MambaBlock): Mamba block for frequency dimension.
-    tlinear (ConvTranspose1d): ConvTranspose1d layer for temporal dimension.
-    flinear (ConvTranspose1d): ConvTranspose1d layer for frequency dimension.
-    """
-
-    def __init__(self, cfg):
-        super(TFBMambaBlock1, self).__init__()
-        self.cfg = cfg
-        self.hid_feature = cfg['model_cfg']['hid_feature']
-        self.max_hid = self.hid_feature * 4
-        # Initialize Mamba blocks
-        self.time_mamba = BMambaBlock(in_channels=self.hid_feature, cfg=cfg)
-        self.freq_mamba = BMambaBlock(in_channels=self.hid_feature, cfg=cfg)
-
-        # Initialize ConvTranspose1d layers
-        self.tlinear1 = nn.Conv1d(self.hid_feature * 2, self.max_hid, 1, stride=1)
-        self.flinear1 = nn.Conv1d(self.hid_feature * 2, self.max_hid, 1, stride=1)
-        self.Tswiglu = SwishGate()
-        self.Fswiglu = SwishGate()
-        self.tlinear = nn.ConvTranspose1d(self.max_hid // 2, self.hid_feature, 1, stride=1)
-        self.flinear = nn.ConvTranspose1d(self.max_hid // 2, self.hid_feature, 1, stride=1)
-
-    def forward(self, x, x_f1, x_f2):
-        """
-        Forward pass of the TFMamba block.
-
-        Parameters:
-        x (Tensor): Input tensor with shape (batch, channels, time, freq).
-
-        Returns:
-        Tensor: Output tensor after applying temporal and frequency Mamba blocks.
-        """
-        b, c, t, f = x.size()
-        scale= 1
-        x = x.permute(0, 3, 2, 1).contiguous().view(b * f, t, c)
-        x_t = self.time_mamba(x).permute(0, 2, 1)
-        cat_Tfeat = torch.cat([x_t, x_f1.permute(0, 2, 1)], 1)
-        Tfeat = self.tlinear1(cat_Tfeat)
-        Tfeat = self.Tswiglu(Tfeat)
-        x = scale*self.tlinear(Tfeat).permute(0, 2,1) + x_t.permute(0, 2,1) + x
-        x = x.view(b, f, t, c).permute(0, 2, 1, 3).contiguous().view(b * t, f, c)
-        x_f = self.freq_mamba(x).permute(0, 2, 1)
-        cat_Ffeat= torch.cat([x_f, x_f2.permute(0, 2, 1)], 1)
-        Ffeat = self.flinear1(cat_Ffeat)
-        Ffeat = self.Fswiglu(Ffeat)
-
-        x = scale*self.flinear(Ffeat).permute(0, 2,1) + x_f.permute(0, 2,1) + x
-        x = x.view(b, t, f, c).permute(0, 3, 1, 2)
-        return x
