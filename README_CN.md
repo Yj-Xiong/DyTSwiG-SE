@@ -4,7 +4,7 @@
 
 作者：Yujie Xiong, Zhihua Huang, Bixin Wu
 
-**摘要：** 基于多个堆叠的 Two-Stage (TS) 块的语音增强 (SE) 模型取得了令人瞩目的性能。然而，它们在每个 TS 块内面临性能与效率之间的根本性折衷，同时由于层归一化的遍布使用，使得数据适应能力有限。此外，被广泛采用的相位解码器往往忽略带噪相位条件，导致噪声鲁棒性欠佳。为此，我们提出了两个无层归一化的单通道 SE 网络：**DyTSwiG-Net** 和 **DyTSwiG-Mamba**。首先，我们引入了 SwiGLUformer 作为 TS 块更高效的替代方案，并设计了 Input-Biased Dynamic Tanh (IB-DyT) 激活函数用于无层归一化的架构。对于 DyTSwiG-Mamba，我们进一步设计了双分支相位解码器 (DBPD)，通过加入带噪相位谱来联合估计相位映射和相位掩蔽，并集成了全局双向 Mamba (G-BiMamba) 模块以增强网络中的特征聚合能力。我们在英文和中文共四个数据集上对两个模型进行了全面评估。消融实验和可视化分析验证了 SwiGLUformer 和 DBPD 的有效性。实验结果表明，DyTSwiG-Net 在保持有竞争力性能的同时实现了更快的推理速度。值得注意的是，DyTSwiG-Mamba 在公开数据集上超越了 SOTA 模型，同时节省了约 25% 的整体成本。此外，所提出的 IB-DyT 可以无缝集成到多种架构中，在跨数据集评估中显著提升了性能。部分方法在中文语音和低信噪比场景下效果不一，而我们的模型展现出了卓越的性能和噪声鲁棒性。
+**摘要：** 基于多个堆叠的 Two-Stage (TS) 块的语音增强 (SE) 模型取得了令人瞩目的性能。然而，它们在每个 TS 块内面临性能与效率之间的根本性折衷，同时由于层归一化的广泛使用，数据适应性有限。此外，被广泛采用的相位解码器往往忽略带噪相位条件，导致噪声鲁棒性欠佳。为此，我们提出了两个无层归一化的单通道 SE 网络：**DyTSwiG-Net** 和 **DyTSwiG-Mamba**。首先，我们引入了 SwiGLUformer 作为 TS 块更高效的替代方案，并设计了 Input-Biased Dynamic Tanh (IB-DyT) 激活函数以支持无层归一化架构。对于 DyTSwiG-Mamba，我们进一步设计了双分支相位解码器 (DBPD)，通过加入带噪相位谱来联合估计相位映射和相位掩蔽，并集成了全局双向 Mamba (G-BiMamba) 模块以增强网络中的特征聚合能力。我们在英文和中文共四个数据集上对两个模型进行了全面评估。消融实验和可视化分析验证了 SwiGLUformer 和 DBPD 的有效性。实验结果表明，DyTSwiG-Net 在保持有竞争力性能的同时实现了更快的推理速度。值得注意的是，DyTSwiG-Mamba 在公开数据集上超越了 SOTA 模型，同时节省了约 25% 的整体成本。此外，所提出的 IB-DyT 可以无缝集成到多种架构中，在跨数据集评估中显著提升了性能。一些方法在中文语音和低信噪比场景下效果不一，而我们的模型展现出了卓越的性能和噪声鲁棒性。
 
 ## 环境要求
 1. Python >= 3.9
@@ -68,7 +68,7 @@ DBPD 模块的频谱可视化（使用 VB+DEMAND 数据集中的 p232_020 和 p2
 ![visualization_zh-models](/Figures/Visualization/Enhanced-zh/D21_866.png)
 
 ## 音频演示
-访问我们的 [Demo 页面](https://yj-xiong.github.io/DyTSwiG-SE/) 收听英文和中文语音增强效果对比。
+访问我们的 [Demo 页面](https://Yj-Xiong.github.io/DyTSwiG-SE) 收听英文和中文语音增强效果对比。
 
 ## 致谢
 我们参考了 [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/) 的工作。

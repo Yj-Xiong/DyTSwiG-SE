@@ -1,8 +1,8 @@
-# DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction (Under TASLP Review)
+# DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network with Dual-branch Phase Prediction (Under TASLP Review)
 
 **English** | [中文](README_CN.md)
 
-Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network via Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
+Official PyTorch implementation of the paper "DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network with Dual-branch Phase Prediction" by Xiong et al. Audio samples are from VoiceBank+DEMAND dataset and THCHS+DNS dataset (mixed with THCHS-30 dataset and DNS-Challenge dataset). The source code is located in the directory "DyTSwiG-SE-Main". The wav files are resampled to 16kHz in our experiments.
 ### Yujie Xiong, Zhihua Huang and Bixin Wu
 
 **Abstract:** 
@@ -66,6 +66,9 @@ For DBPD module, the spectral visualization uses p232_020.wav and p232_020.wav f
 ![visualization_DBPD_2](/Figures/Visualization/DBPD/p257_020.png)
 For Mandarin enhancement results with different denoising models, the spectral visualization uses D21_866.wav from THCHS-30 dataset.
 ![visualization_zh-models](/Figures/Visualization/Enhanced-zh/D21_866.png)
+
+## Audio Demos
+Visit our [Demo Page](https://Yj-Xiong.github.io/DyTSwiG-SE) for English and Mandarin speech enhancement comparisons.
 
 ## Acknowledgements
 We referred to [PrimeK-Net](https://github.com/huaidanquede/PrimeK-Net/).
