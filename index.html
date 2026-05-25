@@ -27,23 +27,12 @@
   }
   h1 { font-size: 1.6rem; margin-bottom: 6px; }
   h2 { font-size: 1.2rem; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
-  h3 { font-size: 1rem; margin: 20px 0 10px; color: var(--muted); }
   .authors { color: var(--muted); font-size: 0.95rem; margin-bottom: 16px; }
   .badge {
     display: inline-block; background: var(--accent-light); color: var(--accent);
     padding: 3px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600;
     margin-right: 6px; margin-bottom: 4px;
   }
-  .abstract {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 18px 22px; margin: 20px 0; font-size: 0.92rem; color: #444; text-align: justify;
-  }
-  .figure-card {
-    background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
-    padding: 16px; margin: 16px 0; text-align: center;
-  }
-  .figure-card img { max-width: 100%; border-radius: 6px; }
-  .figure-card .caption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
 
   /* Audio table */
   .audio-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.88rem; }
@@ -77,7 +66,6 @@
   .tab-panel { display: none; }
   .tab-panel.active { display: block; }
 
-  /* Responsive */
   @media (max-width: 700px) {
     body { padding: 12px 8px; }
     audio { width: 120px; height: 28px; }
@@ -98,38 +86,12 @@
   <a href="https://github.com/Yj-Xiong/DyTSwiG-SE" class="badge" style="background:#333;color:#fff;text-decoration:none;">GitHub Repo</a>
 </div>
 
-<div class="abstract">
-<strong>Abstract:</strong> Speech enhancement (SE) models based on multiple stacked Two-Stage (TS) blocks achieve impressive performance. However, they face a fundamental compromise between performance and efficiency within each TS block, while suffering from a limited data adaptability due to the pervasive use of layer normalization. Besides, widely adopted phase decoders tend to ignore the noisy phase condition, leading to a suboptimal noise robustness. In response, we propose two layer-normalization-free monaural SE networks: <strong>DyTSwiG-Net</strong> and <strong>DyTSwiG-Mamba</strong>. First, we introduce the SwiGLUformer as a more efficient replacement for the TS block, along with an Input-Biased Dynamic Tanh (IB-DyT) activation for layer normalization-free architectures. For DyTSwiG-Mamba, we further design a Dual-Branch Phase Decoder (DBPD) to jointly estimate the phase mapping and masking via adding the noisy phase spectrogram, and integrate a Global Bidirectional Mamba (G-BiMamba) module to enhance feature aggregation across the network. Both models are thoroughly evaluated on four datasets in English and Mandarin. Ablation studies and visual analysis verify the effectiveness of the SwiGLUformer and DBPD. Experimental results show that DyTSwiG-Net achieves faster inference than existing methods while maintaining competitive performance. Notably, DyTSwiG-Mamba outperforms the SOTA model on the public dataset while saving around 25% of overall costs. In addition, the proposed IB-DyT can be seamlessly integrated into diverse architectures, yielding considerable performance gain in cross-dataset evaluation. Some methods exhibit varying effectiveness for Mandarin speech and low-SNR scenarios, while our models show superior performance and noise robustness.
-</div>
-
-<!-- ===== MODEL ARCHITECTURE ===== -->
-<h2>Model Architecture</h2>
-
-<div class="figure-card">
-  <img src="Figures/Models/DyTSwiG-Net.png" alt="DyTSwiG-Net Architecture">
-  <div class="caption">Figure 1: Architecture of DyTSwiG-Net</div>
-</div>
-
-<div class="figure-card">
-  <img src="Figures/Models/DyTSwiG-Mamba.png" alt="DyTSwiG-Mamba Architecture">
-  <div class="caption">Figure 2: Architecture of DyTSwiG-Mamba</div>
-</div>
-
-<div class="figure-card">
-  <img src="Figures/Models/SwiGLUformer.png" alt="SwiGLUformer Module">
-  <div class="caption">Figure 3: SwiGLUformer module illustration</div>
-</div>
-
-<!-- ===== ENGLISH DEMOS ===== -->
-<h2>English Demos — VoiceBank+DEMAND Dataset</h2>
+<!-- ===== ENGLISH DEMO ===== -->
+<h2>English Demo — VoiceBank+DEMAND Dataset</h2>
 <p style="color:var(--muted);font-size:0.9rem;">
   Compare <strong>clean</strong> reference, <strong>noisy</strong> input, our <strong>DBPD</strong> output,
   and its two branches — phase <strong>mapping</strong> and phase <strong>masking</strong>.
 </p>
-
-<div class="tab-bar" id="eng-tabs">
-  <button class="tab-btn" data-tab="eng-p257_020">p257_020</button>
-</div>
 
 <div id="eng-panels">
   <!-- filled by JS -->
@@ -155,38 +117,13 @@
   <!-- filled by JS -->
 </div>
 
-<!-- ===== EFFICIENCY ===== -->
-<h2>Efficiency Comparison</h2>
-<div class="figure-card">
-  <img src="Figures/Comparison/Efficiency.png" alt="Efficiency Comparison">
-  <div class="caption">Figure 4: Efficiency comparison with SOTA methods (our models marked with ★)</div>
-</div>
-
-<!-- ===== VISUALIZATION ===== -->
-<h2>Visualization</h2>
-<h3>DBPD — Phase Decoder Spectral Visualization (English)</h3>
-<div class="figure-card">
-  <img src="Figures/Visualization/DBPD/p232_020.png" alt="DBPD Visualization p232_020">
-  <div class="caption">Figure 5: DBPD spectral visualization — p232_020 from VB+DEMAND</div>
-</div>
-<div class="figure-card">
-  <img src="Figures/Visualization/DBPD/p257_020.png" alt="DBPD Visualization p257_020">
-  <div class="caption">Figure 6: DBPD spectral visualization — p257_020 from VB+DEMAND</div>
-</div>
-
-<h3>Mandarin Enhancement — Cross-model Comparison</h3>
-<div class="figure-card">
-  <img src="Figures/Visualization/Enhanced-zh/D21_866.png" alt="Mandarin Enhancement Comparison">
-  <div class="caption">Figure 7: Mandarin enhancement results — D21_866 from THCHS-30</div>
-</div>
-
 <footer>
   DyTSwiG-Mamba &middot; Under TASLP Review &middot;
   <a href="https://github.com/Yj-Xiong/DyTSwiG-SE">GitHub</a>
 </footer>
 
 <script>
-// ---- English demos ----
+// ---- English demo (only p257_020) ----
 const engSamples = ['p257_020'];
 const engMethods = [
   { key: 'clean',   label: 'Clean (ref)' },
@@ -213,13 +150,7 @@ function buildTable(sampleId, methods, basePath) {
 }
 
 const engPanels = document.getElementById('eng-panels');
-engSamples.forEach((id, i) => {
-  const div = document.createElement('div');
-  div.className = 'tab-panel' + (i === 0 ? ' active' : '');
-  div.id = 'eng-' + id;
-  div.innerHTML = buildTable(id, engMethods, 'EnglishDemos');
-  engPanels.appendChild(div);
-});
+engPanels.innerHTML = buildTable(engSamples[0], engMethods, 'EnglishDemos');
 
 // ---- Mandarin demos ----
 const manSamples = ['D12_801','D21_777','D21_824','D21_866','D31_844','D8_956'];
@@ -248,10 +179,8 @@ function setupTabs(tabBarId) {
     const btn = e.target.closest('.tab-btn');
     if (!btn) return;
     const tabId = btn.dataset.tab;
-    // deactivate all
     bar.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    // show matching panel, hide siblings
     const panel = document.getElementById(tabId);
     const container = panel.parentElement;
     container.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -259,7 +188,6 @@ function setupTabs(tabBarId) {
   });
 }
 
-setupTabs('eng-tabs');
 setupTabs('man-tabs');
 
 // Pause all other audio when one plays
