@@ -143,11 +143,10 @@
 </p>
 
 <div class="tab-bar" id="man-tabs">
-  <button class="tab-btn active" data-tab="man-D12_801">D12_801</button>
-  <button class="tab-btn" data-tab="man-D21_777">D21_777</button>
+  <button class="tab-btn active" data-tab="man-D21_777">D21_777</button>
   <button class="tab-btn" data-tab="man-D21_824">D21_824</button>
+  <button class="tab-btn" data-tab="man-D21_837">D21_837</button>
   <button class="tab-btn" data-tab="man-D21_866">D21_866</button>
-  <button class="tab-btn" data-tab="man-D31_844">D31_844</button>
   <button class="tab-btn" data-tab="man-D8_956">D8_956</button>
 </div>
 
@@ -199,7 +198,7 @@ const engMethods = [
 function buildTable(sampleId, methods, basePath) {
   let rows = '';
   for (const m of methods) {
-    const file = `${sampleId} ${m.key}.wav`;
+    const file = getAudioFileName(sampleId, m.key);
     const path = `${basePath}/${sampleId}/${encodeURIComponent(file)}`;
     rows += `<tr>
       <td class="sample-label">${m.label}</td>
@@ -212,6 +211,21 @@ function buildTable(sampleId, methods, basePath) {
   </table></div>`;
 }
 
+function getAudioFileName(sampleId, methodKey) {
+  const fileMap = {
+    D21_837: {
+      noisy: 'Noisy-D21_837.wav',
+      reference: 'D21_837.wav',
+      ours: 'Ours-D21_837.wav',
+      SEmamba: 'SEMamba-D21_837.wav',
+      cmgan: 'CMGAN-D21_837.wav',
+      primek: 'Primek-D21_837.wav'
+    }
+  };
+
+  return fileMap[sampleId]?.[methodKey] || `${sampleId} ${methodKey}.wav`;
+}
+
 const engPanels = document.getElementById('eng-panels');
 engSamples.forEach((id, i) => {
   const div = document.createElement('div');
@@ -222,7 +236,7 @@ engSamples.forEach((id, i) => {
 });
 
 // ---- Mandarin demos ----
-const manSamples = ['D12_801','D21_777','D21_824','D21_866','D31_844','D8_956'];
+const manSamples = ['D21_777','D21_824','D21_837','D21_866','D8_956'];
 const manMethods = [
   { key: 'noisy',     label: 'Noisy (input)' },
   { key: 'reference', label: 'Reference (clean)' },
