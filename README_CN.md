@@ -1,6 +1,6 @@
 [English](README.md) | **中文**
 
-# DyTSwiG-Mamba: 基于双分支相位预测的无层归一化 CNN-Mamba 语音增强网络 (TASLP 审稿中)
+# DyTSwiG-Mamba: 基于双分支相位预测的无层归一化 CNN-Mamba 语音增强网络 (2026年被TASLP接收)
 
 作者：Yujie Xiong, Zhihua Huang, Bixin Wu
 
