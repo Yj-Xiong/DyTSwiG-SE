@@ -1,4 +1,4 @@
-# DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network with Dual-branch Phase Prediction (Under TASLP Review)
+# DyTSwiG-Mamba: Layer Normalization-free CNN-Mamba Speech Enhancement Network with Dual-branch Phase Prediction (Accepted by TASLP 2026)
 
 **English** | [中文](README_CN.md)
 
